@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework;
 	public class GridBasedMover {
 		public Vector2 Dir = Direction.Down;
 
+		public int GSize = 16;
+
 		private Vector2 position;
 		public Vector2 Position {
 			get { return position; }
@@ -25,7 +27,7 @@ using Microsoft.Xna.Framework;
 		private Vector2 targetSpace;
 		public Vector2 TargetSpace {
 			get { return targetSpace; }
-			set { if(value.X % 16 == 0 && value.Y % 16 == 0) targetSpace = value; }
+			set { if(value.X % GSize == 0 && value.Y % GSize == 0) targetSpace = value; }
 		}
 
 		public Vector2 NextDir;
@@ -36,14 +38,14 @@ using Microsoft.Xna.Framework;
 		}
 
 		public void SetPositionAndSnap(Vector2 pos) {
-			if(pos.X % 16 != 0) pos.X = (float) Math.Round(pos.X / 16) * 16;
-			if(pos.Y % 16 != 0) pos.Y = (float) Math.Round(pos.Y / 16) * 16;
+			if(pos.X % GSize != 0) pos.X = (float) Math.Round(pos.X / GSize) * GSize;
+			if(pos.Y % GSize != 0) pos.Y = (float) Math.Round(pos.Y / GSize) * GSize;
 			position = targetSpace = pos;
 		}
 
 		public void RecalcTarget() {
-			Vector2 newPos = (position + (Dir * speed)) / 16 + Dir;
-			targetSpace = new Vector2((float) Math.Round(newPos.X) * 16, (float) Math.Round(newPos.Y) * 16);
+			Vector2 newPos = (position + (Dir * speed)) / GSize + Dir;
+			targetSpace = new Vector2((float) Math.Round(newPos.X) * GSize, (float) Math.Round(newPos.Y) * GSize);
 		}
 
 		public bool AtOrPastTargetSpace(Vector2 pos) {
